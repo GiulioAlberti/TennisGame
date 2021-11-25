@@ -16,12 +16,10 @@ public class TennisGame1 implements TennisGame {
     }
 
     public String getScore() {
-        String score = "";
-        int tempScore=0;
-        if (player1.getScore()==player2.getScore())
-        {
-            switch (player1.getScore())
-            {
+        String score;
+        int difference = differenceInPoints();
+        if (difference==0) {
+            switch (player1.getPoints()) {
                 case 0:
                         score = "Love-All";
                     break;
@@ -37,37 +35,41 @@ public class TennisGame1 implements TennisGame {
                 
             }
         }
-        else if (player1.getScore()>=4 || player2.getScore()>=4)
-        {
-            int minusResult = player1.getScore()-player2.getScore();
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
+        else if (inAdvantageStage()){
+            if (difference==1) score ="Advantage player1";
+            else if (difference ==-1) score ="Advantage player2";
+            else if (difference>=2) score = "Win for player1";
             else score ="Win for player2";
         }
-        else
-        {
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = player1.getScore();
-                else { score+="-"; tempScore = player2.getScore();}
-                switch(tempScore)
-                {
-                    case 0:
-                        score+="Love";
-                        break;
-                    case 1:
-                        score+="Fifteen";
-                        break;
-                    case 2:
-                        score+="Thirty";
-                        break;
-                    case 3:
-                        score+="Forty";
-                        break;
-                }
-            }
+        else {
+            score=pointsToStringOf(player1.getPoints())+"-"+pointsToStringOf(player2.getPoints());
         }
         return score;
+    }
+
+    private boolean inAdvantageStage() {
+        return player1.getPoints()>=4 || player2.getPoints()>=4;
+    }
+
+    private int differenceInPoints() {
+        return player1.getPoints()-player2.getPoints();
+    }
+    private String pointsToStringOf(int points){
+        String scoreString="";
+        switch(points) {
+            case 0:
+                scoreString="Love";
+                break;
+            case 1:
+                scoreString="Fifteen";
+                break;
+            case 2:
+                scoreString="Thirty";
+                break;
+            case 3:
+                scoreString="Forty";
+                break;
+        }
+        return scoreString;
     }
 }
