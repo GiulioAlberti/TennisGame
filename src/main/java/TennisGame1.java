@@ -19,20 +19,11 @@ public class TennisGame1 implements TennisGame {
         String score;
         int difference = differenceInPoints();
         if (difference==0) {
-            switch (player1.getPoints()) {
-                case 0:
-                        score = "Love-All";
-                    break;
-                case 1:
-                        score = "Fifteen-All";
-                    break;
-                case 2:
-                        score = "Thirty-All";
-                    break;
-                default:
-                        score = "Deuce";
-                    break;
-                
+            if(player1.getPoints()<=2){
+                score=pointsToStringOf(player1.getPoints())+"-All";
+            }
+            else{
+                score = "Deuce";
             }
         }
         else if (inAdvantageStage()){
